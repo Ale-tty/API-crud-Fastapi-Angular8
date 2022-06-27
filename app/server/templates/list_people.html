@@ -9,6 +9,7 @@
         $('#peopleBody').html('');
         $.ajax({
             url: '/people',
+            headers: {'Authorization':'Bearer ' + localStorage.getItem('token')},
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -23,6 +24,7 @@
                                             );
                     });
                 loadButtons();
+                document.getElementById('logged').innerHTML = 'Logout';
             }
         });
     }
@@ -47,6 +49,7 @@
     function deletePerson(id){
         $.ajax({
             url: '/people/' + id,
+            headers: {'Authorization':'Bearer ' + localStorage.getItem('token')},
             method: 'DELETE',
             dataType: 'json',
             success: function(data) {
@@ -59,7 +62,10 @@
     getPeople();
 </script>
 
-<h1> List of people </h1>
+<div>
+    <h1 style="display: inline-block;"> List of people </h1>
+    <p style="display: inline-block; margin-top: 5px; float:right" ><a id="logged" href='/login'>Login</a></p>
+</div>
 
 <table id="tutorialsTable" class="table  table-hover table-sm">
     <thead>

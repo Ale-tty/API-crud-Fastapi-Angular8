@@ -7,6 +7,7 @@
   function getOnePersonEdit(id){
       $.ajax({
           url: '/people/' + id,
+          headers: {'Authorization':'Bearer ' + localStorage.getItem('token')},
           method: 'GET',
           dataType: 'json',
           success: function(data) {
@@ -28,6 +29,7 @@
 
     $.ajax({
         url: '/people/' + window.location.href.split('/').at(-1),
+        headers: {'Authorization':'Bearer ' + localStorage.getItem('token')},
         method: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(person),

@@ -55,8 +55,6 @@ async def retrieve_people():
     people = []
     async for person in people_collection.find():
         people.append(person_helper(person))
-    print('ggg')
-    print(people)
     return people
 
 # Add a new person into to the database

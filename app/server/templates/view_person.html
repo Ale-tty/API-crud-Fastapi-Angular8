@@ -8,6 +8,7 @@
     function getOnePersonView(id){
         $.ajax({
             url: '/people/' + id,
+            headers: {'Authorization':'Bearer ' + localStorage.getItem('token')},
             method: 'GET',
             dataType: 'json',
             success: function(data) {
