@@ -1,7 +1,5 @@
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
-from server.auth.auth_bearer import JWTBearer
-from server.auth.auth_handler import signJWT
 
 from server.database import (
     add_person,
@@ -57,10 +55,8 @@ async def add_person_data(person: PersonSchema = Body(...)):
     new_person = await add_person(person)
     return ResponseModel(new_person, "Person added successfully.")
 
-# tags=["people"]
 
-
-@router.get("/", dependencies=[Depends(JWTBearer())], response_description="People retrieved")
+@router.get("/", response_description="People retrieved")
 async def get_persons():
     people = await retrieve_people()
     if people:
@@ -68,7 +64,7 @@ async def get_persons():
     return ResponseModel(people, "Empty list returned")
 
 
-@router.get("/{id}", dependencies=[Depends(JWTBearer())], response_description="Person data retrieved")
+@router.get("/{id}", response_description="Person data retrieved")
 async def get_person_data(id):
     person = await retrieve_person(id)
     if person:
@@ -76,7 +72,7 @@ async def get_person_data(id):
     return ErrorResponseModel("An error occurred.", 404, "person doesn't exist.")
 
 
-@router.put("/{id}", dependencies=[Depends(JWTBearer())])
+@router.put("/{id}")
 async def update_person_data(id: str, req: UpdatePersonModel = Body(...)):
     req = {k: v for k, v in req.dict().items() if v is not None}
     updated_person = await update_person(id, req)
@@ -92,7 +88,7 @@ async def update_person_data(id: str, req: UpdatePersonModel = Body(...)):
     )
 
 
-@router.delete("/{id}", dependencies=[Depends(JWTBearer())], response_description="Person data deleted from the database")
+@router.delete("/{id}", response_description="Person data deleted from the database")
 async def delete_person_data(id: str):
     deleted_person = await delete_person(id)
     if deleted_person:

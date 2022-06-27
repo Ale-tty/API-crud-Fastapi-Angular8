@@ -13,7 +13,6 @@
 
     $.ajax({
         url: '/people',
-        headers: {'Authorization':'Bearer ' + localStorage.getItem('token')},
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(person),

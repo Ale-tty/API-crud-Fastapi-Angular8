@@ -10,7 +10,7 @@ client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 
 database = client.evedemo
 
-people_collection = database.get_collection('angular')
+people_collection = database.get_collection('people')
 
 
 # helpers
@@ -55,6 +55,8 @@ async def retrieve_people():
     people = []
     async for person in people_collection.find():
         people.append(person_helper(person))
+    print('ggg')
+    print(people)
     return people
 
 # Add a new person into to the database
